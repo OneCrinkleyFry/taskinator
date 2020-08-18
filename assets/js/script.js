@@ -1,6 +1,7 @@
 //global variables
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var formEl = document.querySelector("#task-form");
+var pageContentEL = document.querySelector("#page-content");
 var taskIdCounter = 0;
 
 //function to create the list item element in html
@@ -17,7 +18,7 @@ var createTaskEl = function(taskDataObj){
 
 
     listItemEl.appendChild(taskInfoEl);
-debugger;
+
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
 
@@ -89,6 +90,23 @@ var taskFormHandler = function() {
     createTaskEl(taskDataObj);
 };
 
+//deletes the list item
+var deleteTask = function(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+};
+
+//handles the button that is being targeted, and calls the functions that handles those.
+var taskButtonHandler = function(event) {
+    if (event.target.matches(".delete-btn")) {
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+};
 
 //calls the taskFormHandler in the event of a form submission
 formEl.addEventListener("submit", taskFormHandler);
+
+
+//calls the taskButtonHandler function in the event of a click.
+pageContentEL.addEventListener("click", taskButtonHandler);
