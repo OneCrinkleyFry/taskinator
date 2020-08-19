@@ -96,11 +96,33 @@ var deleteTask = function(taskId) {
     taskSelected.remove();
 };
 
+var editTask = function(taskId) {
+    console.log("editing task #" + taskId);
+
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+    var taskType = taskSelected.querySelector("span.task-type").textContent;
+
+    document.querySelector("input[name='task-name']").value = taskName;
+    document.querySelector("select[name='task-type']").value = taskType;
+    document.querySelector("#save-task").textContent = "Save Task";
+
+    formEl.setAttribute("data-task-id, taskId");
+    
+};
+
 //handles the button that is being targeted, and calls the functions that handles those.
 var taskButtonHandler = function(event) {
+
+    var targetEl = event.target;
+
     if (event.target.matches(".delete-btn")) {
-        var taskId = event.target.getAttribute("data-task-id");
+        var taskId = targetEl.getAttribute("data-task-id");
         deleteTask(taskId);
+    }
+    else if (event.target.matches(".edit-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
+        editTask(taskId);
     }
 };
 
