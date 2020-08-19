@@ -69,6 +69,18 @@ var createTaskActions = function(taskId){
     return actionContainerEl;
 };
 
+var completeEditTask = function(taskName, taskType, taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    taskSelected.querySelector("h3.task-name").textContent = taskName;
+    taskSelected.querySelector("span.task-type").textContent = taskType;
+
+    alert("Task Updated!");
+
+    formEl.removeAttribute("data-task-id");
+    document.querySelector("#save-task").textContent = "Add Task";
+};
+
 // gets the input from the user, and validates it, creates a task object and passes it to the createTaskEl function.
 var taskFormHandler = function() {
 
@@ -82,12 +94,21 @@ var taskFormHandler = function() {
         return false;
     }
     formEl.reset();
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput
-    };
 
-    createTaskEl(taskDataObj);
+    var isEdit = formEl.hasAttribute("data-task-id"); 
+
+    if (isEdit) {
+        var taskId = formEl.getAttribute("data-task-id");
+        completeEditTask(taskNameInput, taskTypeInput, taskId);
+    } 
+    else {
+        var taskDataObj = {
+            name: taskNameInput,
+            type: taskTypeInput
+        };
+
+        createTaskEl(taskDataObj);
+    }
 };
 
 //deletes the list item
@@ -107,8 +128,8 @@ var editTask = function(taskId) {
     document.querySelector("select[name='task-type']").value = taskType;
     document.querySelector("#save-task").textContent = "Save Task";
 
-    formEl.setAttribute("data-task-id, taskId");
-    
+    formEl.setAttribute("data-task-id", taskId);
+
 };
 
 //handles the button that is being targeted, and calls the functions that handles those.
