@@ -167,13 +167,23 @@ var taskStatusChangeHandler = function(event) {
 
 };
 
-//calls the taskFormHandler in the event of a form submission
+var dragTaskHandler = function(event) {
+    var taskId = event.target.getAttribute("data-task-id");
+
+    event.dataTransfer.setData("text/plain, taskId");
+
+    var getId = event.dataTransfer.getData("text/plain");
+};
+
+//Evenet handlers
+////calls the taskFormHandler in the event of a form submission
 formEl.addEventListener("submit", taskFormHandler);
 
-
-//calls the taskButtonHandler function in the event of a click.
+////calls the taskButtonHandler function in the event of a click.
 pageContentEL.addEventListener("click", taskButtonHandler);
 
-
-//calls the taskStatusChangeHandler in the event of an element change.
+////calls the taskStatusChangeHandler in the event of an element change.
 pageContentEL.addEventListener("change", taskStatusChangeHandler);
+
+////calls the dragTaskHandler when you start to drag the element.
+pageContentEL.addEventListener("dragstart", dragTaskHandler);
