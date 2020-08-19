@@ -1,5 +1,7 @@
 //global variables
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 var formEl = document.querySelector("#task-form");
 var pageContentEL = document.querySelector("#page-content");
 var taskIdCounter = 0;
@@ -147,9 +149,30 @@ var taskButtonHandler = function(event) {
     }
 };
 
+var taskStatusChangeHandler = function(event) {
+    var taskId = event.target.getAttribute("data-task-id");
+    var statusValue = event.target.value.toLowerCase();
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    if (statusValue === "to do") {
+        tasksToDoEl.appendChild(taskSelected);
+    }
+    else if (statusValue === "in progress") {
+        tasksInProgressEl.appendChild(taskSelected);
+    }
+    else if (statusValue === "completed") {
+        tasksCompletedEl.appendChild(taskSelected);
+    }
+
+};
+
 //calls the taskFormHandler in the event of a form submission
 formEl.addEventListener("submit", taskFormHandler);
 
 
 //calls the taskButtonHandler function in the event of a click.
 pageContentEL.addEventListener("click", taskButtonHandler);
+
+
+//calls the taskStatusChangeHandler in the event of an element change.
+pageContentEL.addEventListener("change", taskStatusChangeHandler);
