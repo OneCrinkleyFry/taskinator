@@ -170,10 +170,19 @@ var taskStatusChangeHandler = function(event) {
 var dragTaskHandler = function(event) {
     var taskId = event.target.getAttribute("data-task-id");
 
-    event.dataTransfer.setData("text/plain, taskId");
+    event.dataTransfer.setData("text/plain", taskId);
 
     var getId = event.dataTransfer.getData("text/plain");
+    console.log("getId:", getId, typeof getId);
 };
+
+var dropZoneDragHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        event.preventDefault();
+    }
+};
+
 
 //Evenet handlers
 ////calls the taskFormHandler in the event of a form submission
@@ -187,3 +196,6 @@ pageContentEL.addEventListener("change", taskStatusChangeHandler);
 
 ////calls the dragTaskHandler when you start to drag the element.
 pageContentEL.addEventListener("dragstart", dragTaskHandler);
+
+////calls the dropZoneDragHandler when you drag a draggable element over the zone.
+pageContentEL.addEventListener("dragover", dropZoneDragHandler);
