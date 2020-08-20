@@ -180,15 +180,18 @@ var dragTaskHandler = function(event) {
 };
 
 //when an object is dragged over, determines if it is a list. if so allows dropping of the task
+//applies visual changes to indicate it can be dropped onto the correct area.
 var dropZoneDragHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
     if (taskListEl) {
         event.preventDefault();
+        taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
     }
 };
 
 
-//when a task is 
+//determines what is being dropped, also appends the item to the closest list.
+// removes styling from the previous drop zone handler
 var dropTaskHandler = function(event) {
     var id = event.dataTransfer.getData("text/plain");
     var draggableElement = document.querySelector("[data-task-id='" + id + "']");
@@ -207,6 +210,15 @@ var dropTaskHandler = function(event) {
     }
 
     dropZoneEl.appendChild(draggableElement);
+    dropZoneEl.removeAttribute("style");
+};
+
+//removes the styling when a dragged task leaves the closest task list.
+var dragLeaveHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        taskListEl.removeAttribute("style");
+    }
 };
 
 
@@ -228,3 +240,6 @@ pageContentEL.addEventListener("dragover", dropZoneDragHandler);
 
 ////calls the dropTaskHandler when you drop a draggable element into the zone.
 pageContentEL.addEventListener("drop", dropTaskHandler);
+
+////calls the dragLeaveHandler when the drag passes over the item and leaves.
+pageContentEL.addEventListener("dragleave", dragLeaveHandler);
