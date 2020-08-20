@@ -32,6 +32,8 @@ var createTaskEl = function(taskDataObj){
 
     tasks.push(taskDataObj);
 
+    saveTasks();
+
     taskIdCounter++;
 };
 
@@ -90,6 +92,8 @@ var completeEditTask = function(taskName, taskType, taskId) {
             tasks[i].type = taskType;
         }
     }
+    
+    saveTasks();
 
     alert("Task Updated!");
 
@@ -111,6 +115,9 @@ var deleteTask = function(taskId) {
     }
 
     tasks = updatedTaskArr;
+
+        
+    saveTasks();
 };
 
 //assigns the task to be edited, moves it to the form, and passes it to the completeEdit function to finish the job.
@@ -197,6 +204,9 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
+
+        
+    saveTasks();
 };
 
 //when the task is picked up, sets an identifier on the task to be found when dropped.
@@ -246,6 +256,9 @@ var dropTaskHandler = function(event) {
             tasks[i].status = statusSelectEl.value.toLowerCase();
         }
     }
+
+        
+    saveTasks();
 };
 
 //removes the styling when a dragged task leaves the closest task list.
@@ -254,6 +267,11 @@ var dragLeaveHandler = function(event) {
     if (taskListEl) {
         taskListEl.removeAttribute("style");
     }
+};
+
+// a reusable function to save tasks objects to the local storage.
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 
